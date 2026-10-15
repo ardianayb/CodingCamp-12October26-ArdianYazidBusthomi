@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Life Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="greeting-block">
+        <h1 id="greeting-text">Good morning!</h1>
+        <p id="date-display" class="date-display"></p>
+        <p id="clock-display" class="clock-display"></p>
+      </div>
+
+      <div class="header-controls">
+        <!-- Name editor -->
+        <div class="name-editor" id="name-editor">
+          <span id="name-display-label" class="name-label"></span>
+          <button id="edit-name-btn" class="icon-btn" aria-label="Edit your name" title="Edit name">✏️</button>
+          <form id="name-form" class="name-form hidden" novalidate>
+            <input
+              id="name-input"
+              type="text"
+              maxlength="40"
+              placeholder="Your name…"
+              aria-label="Your name"
+              autocomplete="off"
+            />
+            <button type="submit" class="btn btn-primary btn-sm">Save</button>
+            <button type="button" id="cancel-name-btn" class="btn btn-ghost btn-sm">Cancel</button>
+          </form>
+        </div>
+
+        <!-- Theme toggle -->
+        <button id="theme-toggle" class="icon-btn theme-btn" aria-label="Toggle light/dark mode" title="Toggle theme">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== MAIN DASHBOARD ===== -->
+  <main class="dashboard">
+
+    <!-- LEFT COLUMN -->
+    <div class="col col-left">
+
+      <!-- Focus Timer -->
+      <section class="card" aria-labelledby="timer-heading">
+        <h2 id="timer-heading" class="card-title">🍅 Focus Timer</h2>
+
+        <div class="timer-presets" role="group" aria-label="Timer duration presets">
+          <button class="preset-btn" data-minutes="15" aria-label="Set 15 minute timer">15 min</button>
+          <button class="preset-btn active" data-minutes="25" aria-label="Set 25 minute timer">25 min</button>
+          <button class="preset-btn" data-minutes="50" aria-label="Set 50 minute timer">50 min</button>
+        </div>
+
+        <div class="timer-display" aria-live="polite" aria-atomic="true">
+          <span id="timer-minutes">25</span>:<span id="timer-seconds">00</span>
+        </div>
+
+        <div class="timer-controls" role="group" aria-label="Timer controls">
+          <button id="timer-start" class="btn btn-primary">Start</button>
+          <button id="timer-stop"  class="btn btn-secondary" disabled>Stop</button>
+          <button id="timer-reset" class="btn btn-ghost">Reset</button>
+        </div>
+
+        <p id="timer-status" class="timer-status" aria-live="polite"></p>
+      </section>
+
+      <!-- Quick Links -->
+      <section class="card" aria-labelledby="links-heading">
+        <h2 id="links-heading" class="card-title">🔗 Quick Links</h2>
+
+        <ul id="links-list" class="links-list" aria-label="Quick links"></ul>
+
+        <form id="add-link-form" class="add-link-form" novalidate>
+          <h3 class="form-subtitle">Add a link</h3>
+          <div class="form-row">
+            <label for="link-name-input" class="sr-only">Link name</label>
+            <input
+              id="link-name-input"
+              type="text"
+              placeholder="Name"
+              maxlength="60"
+              aria-label="Link name"
+              autocomplete="off"
+            />
+          </div>
+          <div class="form-row">
+            <label for="link-url-input" class="sr-only">Link URL</label>
+            <input
+              id="link-url-input"
+              type="url"
+              placeholder="https://…"
+              maxlength="500"
+              aria-label="Link URL"
+              autocomplete="off"
+            />
+          </div>
+          <p id="link-error" class="field-error" role="alert" aria-live="polite"></p>
+          <button type="submit" class="btn btn-primary btn-sm">Add Link</button>
+        </form>
+      </section>
+
+    </div><!-- /col-left -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="col col-right">
+
+      <!-- Task Manager -->
+      <section class="card" aria-labelledby="tasks-heading">
+        <div class="task-header">
+          <h2 id="tasks-heading" class="card-title">✅ Task Manager</h2>
+          <div class="task-stats" aria-live="polite" aria-atomic="true">
+            <span id="stat-total"  class="stat-badge stat-total">0 total</span>
+            <span id="stat-active" class="stat-badge stat-active">0 active</span>
+            <span id="stat-done"   class="stat-badge stat-done">0 done</span>
+          </div>
+        </div>
+
+        <!-- Add task form -->
+        <form id="add-task-form" class="add-task-form" novalidate>
+          <div class="task-input-row">
+            <label for="task-title-input" class="sr-only">New task title</label>
+            <input
+              id="task-title-input"
+              type="text"
+              placeholder="What needs to be done?"
+              maxlength="120"
+              aria-label="New task title"
+              autocomplete="off"
+            />
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+
+          <div class="task-meta-row">
+            <label for="task-priority" class="sr-only">Priority</label>
+            <select id="task-priority" aria-label="Task priority">
+              <option value="low">🟢 Low</option>
+              <option value="medium" selected>🟡 Medium</option>
+              <option value="high">🔴 High</option>
+            </select>
+
+            <label for="task-due" class="sr-only">Due date</label>
+            <input
+              id="task-due"
+              type="date"
+              aria-label="Task due date"
+            />
+          </div>
+
+          <p id="task-error" class="field-error" role="alert" aria-live="polite"></p>
+        </form>
+
+        <!-- Filter tabs -->
+        <div class="filter-tabs" role="tablist" aria-label="Task filters">
+          <button role="tab" class="filter-tab active" data-filter="all"       aria-selected="true">All</button>
+          <button role="tab" class="filter-tab"        data-filter="active"    aria-selected="false">Active</button>
+          <button role="tab" class="filter-tab"        data-filter="completed" aria-selected="false">Completed</button>
+        </div>
+
+        <!-- Task list -->
+        <ul id="task-list" class="task-list" aria-label="Tasks" aria-live="polite"></ul>
+
+        <!-- Empty state -->
+        <div id="task-empty" class="empty-state hidden" aria-live="polite">
+          <p class="empty-icon">📋</p>
+          <p class="empty-msg">No tasks here yet. Add one above!</p>
+        </div>
+
+        <!-- Clear completed -->
+        <div class="task-footer">
+          <button id="clear-completed-btn" class="btn btn-danger btn-sm hidden">
+            Clear completed
+          </button>
+        </div>
+
+      </section>
+
+    </div><!-- /col-right -->
+
+  </main>
+
+  <!-- Inline edit modal (accessible dialog) -->
+  <div id="edit-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+    <div class="modal-box">
+      <h2 id="edit-modal-title" class="modal-title">Edit Task</h2>
+      <form id="edit-task-form" novalidate>
+        <label for="edit-task-title" class="sr-only">Task title</label>
+        <input
+          id="edit-task-title"
+          type="text"
+          maxlength="120"
+          aria-label="Task title"
+          autocomplete="off"
+        />
+
+        <div class="modal-meta">
+          <label for="edit-task-priority" class="sr-only">Priority</label>
+          <select id="edit-task-priority" aria-label="Task priority">
+            <option value="low">🟢 Low</option>
+            <option value="medium">🟡 Medium</option>
+            <option value="high">🔴 High</option>
+          </select>
+
+          <label for="edit-task-due" class="sr-only">Due date</label>
+          <input id="edit-task-due" type="date" aria-label="Task due date" />
+        </div>
+
+        <p id="edit-task-error" class="field-error" role="alert" aria-live="polite"></p>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" id="edit-cancel-btn" class="btn btn-ghost">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
